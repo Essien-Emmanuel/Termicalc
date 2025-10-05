@@ -57,8 +57,6 @@ function deleteStoredCharAtPosX() {
 
 export function render() {
   const { cursorPosX, cursorPosY } = State;
-  // setCursorPosition();
-  // cursorTo(State.cursorPosX, State.cursorPosY);
 
   clearLine(2);
   Cursor.moveLeft();
