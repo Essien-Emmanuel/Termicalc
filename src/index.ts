@@ -1,24 +1,20 @@
 import { exitConsole, handleKeypress, print, setupConsole } from "./core/io.js";
 import { Input } from "./core/input.js";
-import { State } from "./core/state.js";
-import { update } from "./core/utils.js";
+import { stripInput } from "./core/utils.js";
+import { update } from "./core/index.js";
 
 const { isChar, isCtrlC, isEnter } = Input;
 
 export function calc() {
-  handleKeypress((keypress: string) => {
-    const quitProgram =
-      isChar(keypress.toLowerCase(), "q") || isCtrlC(keypress);
+  handleKeypress(($input: string) => {
+    const input = stripInput($input);
+    const quitProgram = isChar(input.toLowerCase(), "q") || isCtrlC(input);
 
     if (quitProgram) {
       exitConsole();
     }
-    if (isEnter(keypress)) {
-      // perform operation
-      State.startY += State.cursorPosY;
-      print(State.storedInput);
-    }
-    update({ keypress });
+
+    update({ input });
   });
 }
 
