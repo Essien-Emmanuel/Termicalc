@@ -27,7 +27,7 @@ class Calculator {
   }
 
   registerInput(input: string) {
-    const sanitizedInput = input.replace(/zs/g, "");
+    const sanitizedInput = input.replace(/\s/g, "");
   }
 
   add = (m: number, n: number) => m + n;

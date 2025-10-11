@@ -1,4 +1,6 @@
-import type { op } from "../calculator/main.js";
+import type { op } from "../calculator/main.ts";
+
+export type NodeValue = string | number;
 
 export type UpdateConfig = {
   input: string;

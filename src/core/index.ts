@@ -1,7 +1,7 @@
 import { print } from "./io.js";
 import { State } from "./state.js";
 import { Input } from "./input.js";
-import type { UpdateConfig } from "./@types/index.js";
+import type { UpdateConfig } from "../@types/index.js";
 
 const { isEnter } = Input;
 
