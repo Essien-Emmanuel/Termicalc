@@ -1,4 +1,4 @@
-import type { NodeValue } from "../@types/index.js";
+import type { NodeValue } from "../@types/index.ts";
 
 class Node {
   public value: NodeValue;

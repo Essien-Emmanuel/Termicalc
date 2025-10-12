@@ -1,5 +1,11 @@
-import type { CalculatorOperator, NodeValue } from "../@types/index.js";
+import type { NodeValue } from "../@types/index.js";
 import { Queue, Stack } from "../core/ds.ts";
+import type {
+  ExpressionChar,
+  ExpressionToken,
+  BracketToken,
+  CalcOperator,
+} from "../@types/index.js";
 
 export class TokenError extends Error {
   constructor(msg: string) {
@@ -8,14 +14,15 @@ export class TokenError extends Error {
   }
 }
 
-const precedence = {
+export const precedence = {
+  "^": 3,
   "**": 3,
   "/": 2,
   "*": 2,
   "+": 1,
   "-": 1,
 };
-const bracketTokens = ["(", ")"] as const;
+export const bracketTokens = ["(", ")"] as const;
 
 export const operatorHandler = {
   "/": (m: number, n: number) => m / n,
@@ -23,17 +30,10 @@ export const operatorHandler = {
   "+": (m: number, n: number) => m + n,
   "-": (m: number, n: number) => m - n,
   "**": (m: number, n: number) => m ** n,
+  "^": (m: number, n: number) => m ** n,
 };
 
-type CalcOperator = keyof typeof precedence;
-type BracketToken = (typeof bracketTokens)[number];
-
-type Expression = (CalculatorOperator | number | BracketToken)[];
-
-// const expr: Expression = ["(", 3, "+", 2, ")", "*", 7];
-const expr: Expression = [3, "+", 2, "*", 7];
-
-function calc(expr: Expression) {
+export function calculate(expr: ExpressionToken) {
   if (!expr.length) return 0;
 
   const output = new Queue();
@@ -122,6 +122,6 @@ function calc(expr: Expression) {
       opStack.push(token);
     }
   }
-  console.log("result: ", opStack.findLast());
+
+  return opStack.findLast();
 }
-calc(expr);

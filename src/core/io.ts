@@ -56,3 +56,5 @@ export const cursorTo = stdout.cursorTo;
 export const consoleWidth = stdout.columns;
 
 export const consoleHeight = stdout.rows;
+
+export const exit = process.exit;

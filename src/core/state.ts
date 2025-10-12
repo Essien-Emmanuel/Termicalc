@@ -1,3 +1,3 @@
 export const State = {
-  storedInput: "",
+  result: 0,
 };

@@ -1,44 +1,41 @@
-import type {
-  CalcOp,
-  CalculatorFunction,
-  CalculatorOperator,
-} from "../@types/index.js";
-
-export const op = {
-  "√": "sqrt",
-  "+": "add",
-  "-": "subtract",
-  "*": "multiply",
-  "/": "divide",
-  "**": "pow",
-  "^": "pow",
-} as const;
+import { exit, print } from "../core/io.ts";
+import { calculate as calculateFn } from "./handler.ts";
+import { tokenizeExpression as tokenizeExpressionFn } from "./tokenizer.ts";
+import type { ExpressionToken } from "../@types/index.ts";
 
 class Calculator {
-  private op: typeof op;
+  private expr: string;
+  protected tokenizedExpr: ExpressionToken;
 
   constructor() {
-    this.op = op;
+    this.expr = "";
+    this.tokenizedExpr = [];
   }
 
-  getOperation<T extends CalculatorFunction>(operator: CalculatorOperator) {
-    const op = this.op[operator];
-    return this[op] as Calculator[T];
+  tokenizeExpression() {
+    this.tokenizedExpr = tokenizeExpressionFn(this.expr);
   }
 
-  registerInput(input: string) {
-    const sanitizedInput = input.replace(/\s/g, "");
-  }
+  calculate(expr: string) {
+    this.expr = expr;
+    this.tokenizeExpression();
 
-  add = (m: number, n: number) => m + n;
-  subtract = (m: number, n: number) => m - n;
-  divide = (m: number, n: number) => m / n;
-  multiply = (m: number, n: number) => m ** n;
-  pow = (m: number, n: number) => m ** n;
-  sqrt = (m: number) => m ** 0.5;
+    const result = calculateFn(this.tokenizedExpr);
+    if (!result) {
+      print(
+        "\x1b[31mSyntaxError\x1b[0m: check expression for incomplete parenthesis or operator doubling",
+        { newLine: true }
+      );
+      print(`Expression: ${this.expr}`, { newLine: true });
+      exit();
+    }
+    return result;
+  }
 }
 
-const calc = new Calculator();
-const ope = "√";
-const sqrt = calc.getOperation<CalcOp<typeof ope>>(ope);
-console.log(sqrt(16));
+// const expr = "3-6/2+10/10";
+// const calc = new Calculator();
+
+// console.log(calc.calculate(expr));
+
+export const calculator = new Calculator();

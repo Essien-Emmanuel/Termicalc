@@ -1,23 +1,21 @@
-import { print } from "./io.js";
-import { State } from "./state.js";
-import { Input } from "./input.js";
-import type { UpdateConfig } from "../@types/index.js";
-
-const { isEnter } = Input;
+import { print } from "./io.ts";
+import { State } from "./state.ts";
+import type { UpdateConfig } from "../@types/index.ts";
+import { calculator } from "../calculator/main.ts";
 
 export function stripInput(input: string) {
   return input.split("\n")[0] || "";
 }
 
 export function render() {
-  print(State.storedInput, { newLine: true });
+  print(String(State.result), { newLine: true });
 }
 
 export function update(config: UpdateConfig) {
-  const { input } = config;
+  const { input: expr } = config;
 
-  State.storedInput = input;
-
+  const result = calculator.calculate(expr);
+  State.result = result as number;
   render();
   return;
 }

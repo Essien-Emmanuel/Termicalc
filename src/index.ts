@@ -1,11 +1,11 @@
-import { exitConsole, handleKeypress, print, setupConsole } from "./core/io.js";
-import { Input } from "./core/input.js";
-import { stripInput } from "./core/utils.js";
-import { update } from "./core/index.js";
+import { exitConsole, handleKeypress, setupConsole } from "./core/io.ts";
+import { Input } from "./core/input.ts";
+import { stripInput } from "./core/utils.ts";
+import { update } from "./core/index.ts";
 
-const { isChar, isCtrlC, isEnter } = Input;
+const { isChar, isCtrlC } = Input;
 
-export function calc() {
+export function run() {
   handleKeypress(($input: string) => {
     const input = stripInput($input);
     const quitProgram = isChar(input.toLowerCase(), "q") || isCtrlC(input);
@@ -20,4 +20,4 @@ export function calc() {
 
 // staging
 setupConsole();
-calc();
+run();
