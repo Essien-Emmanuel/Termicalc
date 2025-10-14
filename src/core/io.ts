@@ -5,12 +5,13 @@ const { stdin, stdout } = process;
 export function handleKeypress(cb: any) {
   stdin.removeAllListeners("data");
   stdin.setEncoding("utf8");
-  stdin.setRawMode(true);
+  stdin.setRawMode(false);
   stdin.on("data", (keypress) => cb(keypress));
 }
 
 export function setupConsole() {
   stdout.write("\x1b[?1049h");
+  stdout.write("\x1b[2J");
   stdout.write("\x1b[H");
 }
 
@@ -55,3 +56,5 @@ export const cursorTo = stdout.cursorTo;
 export const consoleWidth = stdout.columns;
 
 export const consoleHeight = stdout.rows;
+
+export const exit = process.exit;

@@ -1,27 +1,23 @@
-import { exitConsole, handleKeypress, print, setupConsole } from "./core/io.js";
-import { Input } from "./core/input.js";
-import { State } from "./core/state.js";
-import { update } from "./core/utils.js";
+import { exitConsole, handleKeypress, setupConsole } from "./core/io.ts";
+import { Input } from "./core/input.ts";
+import { stripInput } from "./core/utils.ts";
+import { update } from "./core/index.ts";
 
-const { isChar, isCtrlC, isEnter } = Input;
+const { isChar, isCtrlC } = Input;
 
-export function calc() {
-  handleKeypress((keypress: string) => {
-    const quitProgram =
-      isChar(keypress.toLowerCase(), "q") || isCtrlC(keypress);
+export function run() {
+  handleKeypress(($input: string) => {
+    const input = stripInput($input);
+    const quitProgram = isChar(input.toLowerCase(), "q") || isCtrlC(input);
 
     if (quitProgram) {
       exitConsole();
     }
-    if (isEnter(keypress)) {
-      // perform operation
-      State.startY += State.cursorPosY;
-      print(State.storedInput);
-    }
-    update({ keypress });
+
+    update({ input });
   });
 }
 
 // staging
 setupConsole();
-calc();
+run();
