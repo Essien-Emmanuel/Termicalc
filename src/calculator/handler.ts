@@ -48,8 +48,6 @@ export function calculate(expr: ExpressionToken) {
         // compare op
         while (true) {
           const storedToken = opStack.findLast();
-          // console.log(JSON.stringify(output, null, 2));
-          // console.log(JSON.stringify(opStack, null, 2));
 
           if (!storedToken) {
             opStack.push(token);
