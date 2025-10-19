@@ -8,7 +8,7 @@ export function stripInput(input: string) {
 }
 
 export function render() {
-  print(String(State.result), { newLine: true });
+  print("= "+ String(State.result), { newLine: true });
 }
 
 export function update(config: UpdateConfig) {
