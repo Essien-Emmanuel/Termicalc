@@ -64,6 +64,10 @@ export function tokenizeExpression(expr: string) {
     }
 
     if (bracketTokens.includes(char as BracketToken)) {
+      const lastToken = tokenizedExpr.at(-1);
+      if (typeof lastToken === "number" && char === "(") {
+        tokenizedExpr.push("*");
+      }
       tokenizedExpr.push(char as BracketToken);
     }
 
