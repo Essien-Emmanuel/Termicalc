@@ -16,7 +16,7 @@ export function setupConsole() {
 }
 
 export function exitConsole() {
-  stdout.write("\x1b[?1049l");
+  // stdout.write("\x1b[?1049l");
   process.exit();
 }
 

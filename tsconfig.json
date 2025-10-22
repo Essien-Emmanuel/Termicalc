@@ -41,5 +41,9 @@
     "skipLibCheck": true,
 
     "rewriteRelativeImportExtensions": true
+  },
+  "tsc-alias": {
+    "resolveFullPaths": true,
+    "verbose": false
   }
 }

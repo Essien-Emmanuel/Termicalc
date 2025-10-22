@@ -16,7 +16,6 @@ export class TokenError extends Error {
 
 export const precedence = {
   "^": 3,
-  "**": 3,
   "/": 2,
   "*": 2,
   "+": 1,
@@ -99,6 +98,8 @@ export function calculate(expr: ExpressionToken) {
       output.enqueue(popped);
     }
   }
+  // console.log("output ", JSON.stringify(output, null, 2));
+  // console.log("stack ", JSON.stringify(opStack, null, 2));
 
   let leftNum: number;
   let rightNum: number;
@@ -107,7 +108,7 @@ export function calculate(expr: ExpressionToken) {
   while (output.size) {
     // push to stack
     const token = output.dequeue();
-    if (!token) break;
+    if (!token && token !== 0) break;
 
     if (token in precedence) {
       if (!opStack.size) break;
