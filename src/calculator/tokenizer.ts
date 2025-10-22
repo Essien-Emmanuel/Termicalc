@@ -18,21 +18,24 @@ export function tokenizeExpression(expr: string) {
   for (let i = 0; i < sanitizedExpr.length; i++) {
     let char = sanitizedExpr[i];
     const isNumber = !isNaN(Number(char));
-    if (isNumber) {
+    if (isNumber || char === ".") {
       storedNum += char;
     } else {
-      tokenizedExpr.push(Number(storedNum));
-      storedNum = "";
+      if (storedNum || !bracketTokens.includes(char as BracketToken)) {
+        tokenizedExpr.push(Number(storedNum));
+        storedNum = "";
+      }
     }
 
-    if (
-      (char && char in precedence) ||
-      bracketTokens.includes(char as BracketToken)
-    ) {
+    if (char && char in precedence) {
+      tokenizedExpr.push(char as keyof typeof precedence);
+    }
+
+    if (bracketTokens.includes(char as BracketToken)) {
       tokenizedExpr.push(char as BracketToken);
     }
 
-    if (i === sanitizedExpr.length - 1) {
+    if (i === sanitizedExpr.length - 1 && storedNum) {
       tokenizedExpr.push(Number(storedNum));
     }
   }
