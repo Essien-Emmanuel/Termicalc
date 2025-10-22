@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { exitConsole, handleKeypress, setupConsole } from "./core/io.ts";
 import { Input } from "./core/input.ts";
 import { stripInput } from "./core/utils.ts";
@@ -19,5 +21,5 @@ export function run() {
 }
 
 // staging
-setupConsole();
+// setupConsole();
 run();

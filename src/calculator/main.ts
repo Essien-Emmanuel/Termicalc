@@ -21,7 +21,7 @@ class Calculator {
     this.tokenizeExpression();
 
     const result = calculateFn(this.tokenizedExpr);
-    console.log(this.tokenizedExpr);
+
     if (!result && result !== 0) {
       print(
         "\x1b[31mSyntaxError\x1b[0m: check expression for incomplete parenthesis or operator doubling",
@@ -34,8 +34,8 @@ class Calculator {
   }
 }
 
-const expr = "2-+5";
-const t = tokenizeExpressionFn(expr);
-console.log(t);
+// const expr = "2-+5";
+// const t = tokenizeExpressionFn(expr);
+// console.log(t);
 
 export const calculator = new Calculator();

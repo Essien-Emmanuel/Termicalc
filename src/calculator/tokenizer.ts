@@ -4,8 +4,10 @@ import type {
   BracketToken,
   CalcOperator,
   ExpressionChar,
-  ExpressionToken,
 } from "../@types/index.ts";
+
+const resolvedOps = ["-", "+"] as const;
+type ResolvedOp = (typeof resolvedOps)[number];
 
 export function tokenizeExpression(expr: string) {
   if (!expr) return [];
@@ -20,7 +22,10 @@ export function tokenizeExpression(expr: string) {
     let char = sanitizedExpr[i];
     const lastToken = tokenizedExpr.at(-1);
     const isResolvableOp =
-      lastToken && char && lastToken in precedence && char in precedence;
+      lastToken &&
+      char &&
+      resolvedOps.includes(lastToken as ResolvedOp) &&
+      resolvedOps.includes(char as ResolvedOp);
     const isNumber = !isNaN(Number(char));
 
     if (isNumber || char === ".") {
@@ -37,8 +42,6 @@ export function tokenizeExpression(expr: string) {
 
     if (char && char in precedence) {
       let resolvedOp = char;
-      const resolvedOps = ["-", "+"] as const;
-      type ResolvedOp = (typeof resolvedOps)[number];
 
       if (resolvedOps.includes(char as ResolvedOp)) {
         const signPointMap = { "+": 0, "-": 1 };
