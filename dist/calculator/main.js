@@ -1,6 +1,7 @@
 import { exit, print } from "../core/io.js";
 import { calculate as calculateFn } from "./handler.js";
 import { tokenizeExpression as tokenizeExpressionFn } from "./tokenizer.js";
+import { printSyntaxError } from "../exceptions/index.js";
 class Calculator {
     expr;
     tokenizedExpr;
@@ -16,8 +17,7 @@ class Calculator {
         this.tokenizeExpression();
         const result = calculateFn(this.tokenizedExpr);
         if (!result && result !== 0) {
-            print("\x1b[31mSyntaxError\x1b[0m: check expression for incomplete parenthesis or operator doubling", { newLine: true });
-            print(`Expression: ${this.expr}`, { newLine: true });
+            printSyntaxError(this.expr);
             exit();
         }
         return result;

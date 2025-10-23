@@ -1,5 +1,6 @@
 import { exit } from "../core/io.js";
 import { bracketTokens, precedence } from "./handler.js";
+import { printSyntaxError } from "../exceptions/index.js";
 const resolvedOps = ["-", "+"];
 export function tokenizeExpression(expr) {
     if (!expr)
@@ -9,17 +10,24 @@ export function tokenizeExpression(expr) {
     let storedNum = "";
     for (let i = 0; i < sanitizedExpr.length; i++) {
         let char = sanitizedExpr[i];
+        const isNumber = !isNaN(Number(char));
+        const validChar = [...Object.keys(precedence), ...bracketTokens].includes(char) || isNumber;
+        if (!validChar) {
+            printSyntaxError(expr);
+            exit();
+        }
         const lastToken = tokenizedExpr.at(-1);
         const isResolvableOp = lastToken &&
             char &&
             resolvedOps.includes(lastToken) &&
             resolvedOps.includes(char);
-        const isNumber = !isNaN(Number(char));
+        // console.log({ tokenizedExpr, isResolvableOp, storedNum, char });
         if (isNumber || char === ".") {
             storedNum += char;
         }
         else {
-            if ((storedNum && !isResolvableOp) ||
+            if (storedNum ||
+                (storedNum && !isResolvableOp) ||
                 (!bracketTokens.includes(char) && !isResolvableOp)) {
                 tokenizedExpr.push(Number(storedNum));
                 storedNum = "";
