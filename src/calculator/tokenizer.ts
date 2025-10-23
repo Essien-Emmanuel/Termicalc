@@ -5,6 +5,7 @@ import type {
   CalcOperator,
   ExpressionChar,
 } from "../@types/index.ts";
+import { printSyntaxError } from "../exceptions/index.ts";
 
 const resolvedOps = ["-", "+"] as const;
 type ResolvedOp = (typeof resolvedOps)[number];
@@ -20,18 +21,31 @@ export function tokenizeExpression(expr: string) {
 
   for (let i = 0; i < sanitizedExpr.length; i++) {
     let char = sanitizedExpr[i];
+    const isNumber = !isNaN(Number(char));
+
+    const validChar =
+      (
+        [...Object.keys(precedence), ...bracketTokens] as ExpressionChar[]
+      ).includes(char as ExpressionChar) || isNumber;
+
+    if (!validChar) {
+      printSyntaxError(expr);
+      exit();
+    }
+
     const lastToken = tokenizedExpr.at(-1);
     const isResolvableOp =
       lastToken &&
       char &&
       resolvedOps.includes(lastToken as ResolvedOp) &&
       resolvedOps.includes(char as ResolvedOp);
-    const isNumber = !isNaN(Number(char));
 
+    // console.log({ tokenizedExpr, isResolvableOp, storedNum, char });
     if (isNumber || char === ".") {
       storedNum += char;
     } else {
       if (
+        storedNum ||
         (storedNum && !isResolvableOp) ||
         (!bracketTokens.includes(char as BracketToken) && !isResolvableOp)
       ) {
