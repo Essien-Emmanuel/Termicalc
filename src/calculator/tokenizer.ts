@@ -28,10 +28,20 @@ export function tokenizeExpression(expr: string) {
       resolvedOps.includes(char as ResolvedOp);
     const isNumber = !isNaN(Number(char));
 
+    // console.log({ tokenizedExpr, isResolvableOp, storedNum, char });
     if (isNumber || char === ".") {
       storedNum += char;
     } else {
+      // if (
+      //   (storedNum && !isResolvableOp) ||
+      //   (!bracketTokens.includes(char as BracketToken) && !isResolvableOp)
+      // ) {
+      //   tokenizedExpr.push(Number(storedNum));
+      //   storedNum = "";
+      // }
+
       if (
+        storedNum ||
         (storedNum && !isResolvableOp) ||
         (!bracketTokens.includes(char as BracketToken) && !isResolvableOp)
       ) {
