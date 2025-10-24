@@ -18,6 +18,8 @@ export function tokenizeExpression(expr: string) {
   const tokenizedExpr: ExpressionChar[] = [];
 
   let storedNum = "";
+  let isOpenBracket = false;
+  let decimalPointCount = 0;
 
   for (let i = 0; i < sanitizedExpr.length; i++) {
     let char = sanitizedExpr[i];
@@ -25,11 +27,18 @@ export function tokenizeExpression(expr: string) {
 
     const validChar =
       (
-        [...Object.keys(precedence), ...bracketTokens] as ExpressionChar[]
+        [".", ...Object.keys(precedence), ...bracketTokens] as ExpressionChar[]
       ).includes(char as ExpressionChar) || isNumber;
 
     if (!validChar) {
-      printSyntaxError(expr);
+      printSyntaxError(expr, `Invalid character ${char}`);
+      exit();
+    }
+    if (decimalPointCount > 1) {
+      printSyntaxError(
+        expr,
+        `Operand contains many decimal points ${storedNum}`
+      );
       exit();
     }
 
@@ -37,29 +46,49 @@ export function tokenizeExpression(expr: string) {
     const isResolvableOp =
       lastToken &&
       char &&
-      resolvedOps.includes(lastToken as ResolvedOp) &&
+      lastToken in precedence &&
       resolvedOps.includes(char as ResolvedOp);
+
+    const isMissingOperand =
+      lastToken &&
+      char &&
+      lastToken in precedence &&
+      ["^", "/", "*"].includes(char as CalcOperator);
 
     // console.log({ tokenizedExpr, isResolvableOp, storedNum, char });
     if (isNumber || char === ".") {
+      if (char === ".") {
+        if (!storedNum) {
+          storedNum += "0";
+        }
+        decimalPointCount++;
+      }
       storedNum += char;
     } else {
       if (
         storedNum ||
         (storedNum && !isResolvableOp) ||
-        (!bracketTokens.includes(char as BracketToken) && !isResolvableOp)
+        (!bracketTokens.includes(char as BracketToken) &&
+          !isResolvableOp &&
+          !isMissingOperand)
       ) {
         tokenizedExpr.push(Number(storedNum));
         storedNum = "";
+        decimalPointCount = 0;
+
+        if (isOpenBracket) {
+          tokenizedExpr.push(")");
+          isOpenBracket = false;
+        }
       }
     }
 
     if (char && char in precedence) {
       let resolvedOp = char;
 
+      const lastToken = tokenizedExpr.at(-1);
       if (resolvedOps.includes(char as ResolvedOp)) {
         const signPointMap = { "+": 0, "-": 1 };
-        const lastToken = tokenizedExpr.at(-1);
 
         if (resolvedOps.includes(lastToken as ResolvedOp)) {
           tokenizedExpr.pop();
@@ -75,6 +104,21 @@ export function tokenizeExpression(expr: string) {
               resolvedOp = k;
             }
           }
+        } else if (
+          lastToken &&
+          ["^", "*", "/"].includes(lastToken as CalcOperator)
+        ) {
+          tokenizedExpr.push("(");
+          tokenizedExpr.push(0);
+          isOpenBracket = true;
+        }
+      } else {
+        if (
+          resolvedOps.includes(lastToken as ResolvedOp) &&
+          ["^", "*", "/"].includes(char as CalcOperator)
+        ) {
+          printSyntaxError(expr, `Missing operand before ${char}`);
+          exit();
         }
       }
       tokenizedExpr.push(resolvedOp as CalcOperator);
@@ -90,6 +134,9 @@ export function tokenizeExpression(expr: string) {
 
     if (i === sanitizedExpr.length - 1 && storedNum) {
       tokenizedExpr.push(Number(storedNum));
+      if (isOpenBracket) {
+        tokenizedExpr.push(")");
+      }
     }
   }
 
