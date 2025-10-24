@@ -19,7 +19,12 @@ class Calculator {
 
   calculate(expr: string) {
     this.expr = expr;
+    const prev = performance.now();
     this.tokenizeExpression();
+    const curr = performance.now();
+    console.log(curr - prev);
+
+    // console.log(this.tokenizedExpr);
 
     const result = calculateFn(this.tokenizedExpr);
 
