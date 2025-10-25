@@ -68,8 +68,8 @@ tc
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/Essien-Emmanuel/Terminal-calculator.git
-   cd Terminal-calculator
+   git clone https://github.com/Essien-Emmanuel/Termicalc.git
+   cd Termicalc
    ```
 
 2. Install dependencies:
