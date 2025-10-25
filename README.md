@@ -117,27 +117,6 @@ This project is licensed under the ISC License - see the [LICENSE](LICENSE) file
 - GitHub: [@Essien-Emmanuel](https://github.com/Essien-Emmanuel)
 - npm: [termicalc](https://www.npmjs.com/package/termicalc)
 
-## Keywords
-
-```json
-{
-  "keywords": [
-    "calculator",
-    "terminal",
-    "cli",
-    "math",
-    "arithmetic",
-    "command-line",
-    "nodejs",
-    "typescript",
-    "real-time",
-    "evaluation",
-    "console",
-    "terminal-app"
-  ]
-}
-```
-
 ## 🌟 Show your support
 
 Give a ⭐️ if this project helped you!

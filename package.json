@@ -1,6 +1,6 @@
 {
   "name": "termicalc",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A simple calculator that runs in the terminal",
   "main": "dist/index.js",
   "type": "module",
@@ -8,7 +8,20 @@
     "calc": "npx tsx src/index.ts",
     "build": "tsc && tsc-alias"
   },
-  "keywords": [],
+ "keywords": [
+    "calculator",
+    "terminal",
+    "cli",
+    "math",
+    "arithmetic",
+    "command-line",
+    "nodejs",
+    "typescript",
+    "real-time",
+    "evaluation",
+    "console",
+    "terminal-app"
+  ],
   "author": "Emmanuel Essien",
   "license": "ISC",
   "bin": {
@@ -22,5 +35,5 @@
     "typescript": "^5.9.3"
   },
   "files": ["dist"],
-  "repository": {"type": "git", "url": "https://github.com/Essien-Emmanuel/Terminal-calculator.git"}
+  "repository": {"type": "git", "url": "https://github.com/Essien-Emmanuel/Termicalc.git"}
 }
