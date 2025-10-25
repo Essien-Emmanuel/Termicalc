@@ -1,6 +1,6 @@
 {
   "name": "termicalc",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A simple calculator that runs in the terminal",
   "main": "dist/index.js",
   "type": "module",

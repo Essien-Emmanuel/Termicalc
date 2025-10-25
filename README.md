@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/termicalc.svg)](https://www.npmjs.com/package/termicalc)
 [![Downloads](https://img.shields.io/npm/dm/termicalc.svg)](https://www.npmjs.com/package/termicalc)
-[![License](https://img.shields.io/npm/l/termicalc.svg)](https://github.com/Essien-Emmanuel/Terminal-calculator/blob/main/LICENSE)
+[![License](https://img.shields.io/npm/l/termicalc.svg)](https://github.com/Essien-Emmanuel/termicalc/blob/main/LICENSE)
 [![Node.js Version](https://img.shields.io/node/v/termicalc.svg)](https://nodejs.org)
 
 > A lightweight, powerful terminal-based calculator with real-time evaluation capabilities.
